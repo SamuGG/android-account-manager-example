@@ -2,10 +2,12 @@ package com.samugg.example;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,14 +24,16 @@ import android.widget.TextView;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends AccountAuthenticatorActivity {
+public class LoginActivity extends Activity {
 	
 	public static final String ARG_ACCOUNT_TYPE = "accountType";
 	public static final String ARG_AUTH_TOKEN_TYPE = "authTokenType";
 	public static final String ARG_IS_ADDING_NEW_ACCOUNT = "isAddingNewAccount";
 	public static final String PARAM_USER_PASSWORD = "password";
 
+	private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
 	private AccountManager mAccountManager;
+	private Bundle mResultBundle = null;
 	
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -50,6 +54,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mAccountAuthenticatorResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+		if (mAccountAuthenticatorResponse != null) {
+		    mAccountAuthenticatorResponse.onRequestContinued();
+		}
 		setContentView(R.layout.activity_login);
 		
 		mAccountManager = AccountManager.get(this);
@@ -97,6 +105,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
+	}
+
+	public final void setAccountAuthenticatorResult(Bundle result) {
+		mResultBundle = result;
 	}
 
 	/**
@@ -154,6 +166,19 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
 		}
+	}
+
+	public void finish() {
+		if (mAccountAuthenticatorResponse != null) {
+			// send the result bundle back if set, otherwise send an error.
+			if (mResultBundle != null) {
+				mAccountAuthenticatorResponse.onResult(mResultBundle);
+			} else {
+				mAccountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED, "canceled");
+			}
+			mAccountAuthenticatorResponse = null;
+		}
+		super.finish();
 	}
 
 	/**

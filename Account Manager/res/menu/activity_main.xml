@@ -1,9 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+	xmlns:yourapp="http://schemas.android.com/apk/res-auto"
+	>
 
     <item
         android:id="@+id/action_close_session"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        yourapp:showAsAction="never"
         android:title="@string/action_close_session"/>
 
 </menu>
