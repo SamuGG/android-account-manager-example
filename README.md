@@ -10,7 +10,7 @@ There are 2 activities:
 
 The **MainActivity** requires to be authenticated, so it will open LoginActivity automatically if no auth token could be retrieved from any acount.
 
-The **LoginActivity** is used for login and registration purposes equally. Once authenticated, the app stores in preferences the account name and the generated auth token.
+The **LoginActivity** is used for login and registration purposes equally. Once authenticated, the app stores in Preferences the account name and the generated auth token.
 
 ### How to login
 In this demo, a static account repository was created with dummy accounts, which you may use for testing:
@@ -20,7 +20,7 @@ In this demo, a static account repository was created with dummy accounts, which
 - foo@example.com / password: foobar
 
 ### How to create an account
-You can create app accounts either from the LoginActivity opened at the app start, or by going to your device general settings -> Accounts -> + Add account.
+You can create app accounts either from the LoginActivity opened at the app start, or by navigating to your device general settings -> Accounts -> + Add account.
 
 Multiple accounts can be created.
 
@@ -28,15 +28,10 @@ Multiple accounts can be created.
 ![Screenshot 1](screenshots/samugg-android-account-manager-example-screenshot-1.png?raw=true) &nbsp; ![Screenshot 2](screenshots/samugg-android-account-manager-example-screenshot-2.png?raw=true) &nbsp; ![Screenshot 3](screenshots/samugg-android-account-manager-example-screenshot-3.png?raw=true)
 
 
-Developed By
-=======
-
-* Samuel Granados (samugg@hotmail.com)
-
 License
 =======
 
-Copyright 2014 Samuel Granados García
+Copyright 2014 Samuel Granados GarcÃ­a
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
